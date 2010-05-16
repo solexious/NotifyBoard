@@ -22,13 +22,13 @@ uint8_t Y_MAX = 0;
 
 //serial in stuff
 #define INLENGTH 20
-#define INTERMINATOR 10
+char intermator = '|';
 char inString[INLENGTH+1];
 int inCount;
 
 
 void setup() {
-  Serial.begin(4800); 
+  Serial.begin(9600); 
 
   // Fetch bounds
   X_MAX = disp.getDisplayCount() * (disp.getDisplayWidth()-1)+1;
@@ -52,34 +52,38 @@ void loop()
   do {
     while (!Serial.available());             // wait for input
     inString[inCount] = Serial.read();       // get it
-    if (inString[inCount] == INTERMINATOR) break;
+    if (inString[inCount] == intermator) break;
     //Serial.println(inString[inCount]);
     inCount = inCount + 1;
   } while (inCount < INLENGTH);
   inString[inCount] = 0;
   
-  Serial.println(inString);
+  //Serial.println(inString);
   
   
-  //drawString(0,0,"moo");
+  drawSerialString(0,0,inString);
   
-  int x = 1;
-  int y = 0;
-  for(char i=0; i<= 20; i++)
-  {
-	drawChar(x, y, inString[i]);
-	x+=6; // Width of each glyph
-        //Serial.print(inString[i]);
-  }
+  //disp.syncDisplays(); 
   
-  disp.syncDisplays(); 
+}
 
+void drawSerialString(uint8_t x, uint8_t y, char* serialString)
+{
+  char inc = 0;
+  do
+  {
+    if(serialString[inc] == 0) break;
+    drawChar(x, y, serialString[inc]);
+    x+=6; // Width of each glyph
+    Serial.print(serialString[inc]);
+    inc++;
+  } while (inc <= INLENGTH);
 }
 
 void drawChar(uint8_t x, uint8_t y, char c)
 {
   //if (x + 5 >=  2 * 32) return;
-  Serial.print(c);
+  //Serial.print(c);
   uint8_t dots;
   if (c >= 'A' && c <= 'Z' ||
     (c >= 'a' && c <= 'z') ) {
