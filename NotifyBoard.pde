@@ -12,7 +12,7 @@
 // False - we dont need a shadow buffer for this example. saves 50% memory!
 
 // Init Matrix
-MatrixDisplay disp(3,15,14, false);
+MatrixDisplay disp(4,15,14, false);
 // Pass a copy of the display into the toolbox
 DisplayToolbox toolbox(&disp);
 
@@ -40,7 +40,7 @@ void setup() {
   disp.setMaster(0,16);
   disp.setSlave(1,17);
   disp.setSlave(2,18);
-  //disp.setSlave(3,19);
+  disp.setSlave(3,19);
 }
 
 
@@ -60,30 +60,16 @@ void loop()
   
   //Serial.println(inString);
   
+  disp.clear();
+  drawString(0,0,inString);
+  disp.syncDisplays(); 
   
-  drawSerialString(0,0,inString);
-  
-  //disp.syncDisplays(); 
-  
-}
-
-void drawSerialString(uint8_t x, uint8_t y, char* serialString)
-{
-  char inc = 0;
-  do
-  {
-    if(serialString[inc] == 0) break;
-    drawChar(x, y, serialString[inc]);
-    x+=6; // Width of each glyph
-    Serial.print(serialString[inc]);
-    inc++;
-  } while (inc <= INLENGTH);
 }
 
 void drawChar(uint8_t x, uint8_t y, char c)
 {
   //if (x + 5 >=  2 * 32) return;
-  //Serial.print(c);
+  Serial.print(c);
   uint8_t dots;
   if (c >= 'A' && c <= 'Z' ||
     (c >= 'a' && c <= 'z') ) {
