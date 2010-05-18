@@ -1,3 +1,23 @@
+/*
+Copyright 2010 Charles Yarnold charlesyarnold@gmail.com
+
+NotifyBoard is free software: you can redistribute it and/or modify it under the terms of
+the GNU General Public License as published by the Free Software Foundation, either
+version 3 of the License, or (at your option) any later version.
+
+NotifyBoard is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with NotifyBoard.
+If not, see http://www.gnu.org/licenses/.
+
+*/
+
+/*
+Version 0.1
+*/
+
 #include "MatrixDisplay.h"
 #include "DisplayToolbox.h"
 #include "font.h"
@@ -21,7 +41,7 @@ uint8_t X_MAX = 0;
 uint8_t Y_MAX = 0;
 
 //serial in stuff
-#define INLENGTH 20
+#define INLENGTH 21
 char intermator = '|';
 char inString[INLENGTH+1];
 int inCount;
