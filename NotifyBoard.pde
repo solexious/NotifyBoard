@@ -78,10 +78,12 @@ void loop()
   } while (inCount < INLENGTH);
   inString[inCount] = 0;
   
-  //Serial.println(inString);
+  // center text
+  int x = floor ((128 - ((strlen(inString)*6) - 1)) / 2);
   
   disp.clear();
-  drawString(0,0,inString);
+  drawString(x,0,inString);
+  toolbox.setBrightness(1);
   disp.syncDisplays(); 
   
 }
