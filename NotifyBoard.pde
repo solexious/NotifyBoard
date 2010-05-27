@@ -34,7 +34,7 @@ WaveHC wave;      // This is the only wave (audio) object, since we will only pl
 
 #include "MatrixDisplay.h"
 #include "DisplayToolbox.h"
-#include "font.h"
+#include "fontLower.h"
 
 // Easy to use function
 #define setMaster(dispNum, CSPin) initDisplay(dispNum,CSPin,true)
@@ -213,8 +213,9 @@ void drawChar(uint8_t x, uint8_t y, char c)
 {
   //if (x + 5 >=  2 * 32) return;
   Serial.print(c);
+  
   uint8_t dots;
-  if (c >= 'A' && c <= 'Z' ||
+  /*if (c >= 'A' && c <= 'Z' ||
     (c >= 'a' && c <= 'z') ) {
     c &= 0x1F;   // A-Z maps to 1-26
   } 
@@ -223,11 +224,11 @@ void drawChar(uint8_t x, uint8_t y, char c)
   } 
   else if (c == ' ') {
     c = 0; // space
-  }
+  }*/
   for (char col=0; col< 5; col++) {
     dots = pgm_read_byte_near(&myfont[c][col]);
-    for (char row=0; row < 7; row++) {
-      if (dots & (64>>row))   	     // only 7 rows.
+    for (char row=0; row < 8; row++) {
+      if (dots & (0x80>>row))   	     // only 7 rows.
         toolbox.setPixel(x+col, y+row, 1);
       else 
         toolbox.setPixel(x+col, y+row, 0);
