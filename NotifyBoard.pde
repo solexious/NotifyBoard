@@ -18,7 +18,7 @@ Copyright 2010 Charles Yarnold charlesyarnold@gmail.com
 This sketch requires the arduino Library from:
  http://github.com/solexious/MatrixDisplay
  
- Version 0.1
+ Version 0.2
  */
 
 #include <FatReader.h>
@@ -73,7 +73,7 @@ void setup() {
   // Prepare displays
   // The first number represents how the buffer/display is stored in memory. Could be useful for reorganising the displays or matching 
   // he physical layout
-    // The number is a array index and is sequential from 0. You can't use 4-8. You must use the numbers 0-4
+  // The number is a array index and is sequential from 0. You can't use 4-8. You must use the numbers 0-4
   disp.setSlave(0,16);
   disp.setMaster(1,17);
   disp.setSlave(2,18);
@@ -130,7 +130,7 @@ void setup() {
 
   // Whew! We got past the tough parts.
   putstring_nl("Ready!");
-  
+
   // INITALISE
   initText();
 }
@@ -272,7 +272,7 @@ void fadeIn(void)
 void initText(void)
 {
   disp.clear();
-  drawString(0,0,"Welcome To The");
+  drawString(,0,"Welcome To The");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
@@ -281,6 +281,10 @@ void initText(void)
   fadeIn();
   disp.clear();
   drawString(0,0,"Notification Board");
+  disp.syncDisplays(); 
+  fadeIn();
+  disp.clear();
+  drawString(0,0,"V0.2");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
