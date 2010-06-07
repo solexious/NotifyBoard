@@ -272,7 +272,7 @@ void fadeIn(void)
 void initText(void)
 {
   disp.clear();
-  drawString(,0,"Welcome To The");
+  drawString(0,0,"Welcome To The");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
