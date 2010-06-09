@@ -53,12 +53,17 @@ MatrixDisplay disp(4,15,14, false);
 // Pass a copy of the display into the toolbox
 DisplayToolbox toolbox(&disp);
 
+// Text settings
+int x;
+boolean scrolling;
+int minLeft;
+
 // Prepare boundaries
-uint8_t X_MAX = 0;
-uint8_t Y_MAX = 0;
+int X_MAX = 0;
+int Y_MAX = 0;
 
 //serial in stuff
-#define INLENGTH 21
+#define INLENGTH 162
 char inString[INLENGTH+1];
 int inCount;
 
@@ -67,7 +72,7 @@ void setup() {
   Serial.begin(9600); 
 
   // Fetch bounds
-  X_MAX = disp.getDisplayCount() * (disp.getDisplayWidth()-1)+1;
+  X_MAX = disp.getDisplayCount() * disp.getDisplayWidth();
   Y_MAX = disp.getDisplayHeight();
 
   // Prepare displays
@@ -132,34 +137,55 @@ void setup() {
   putstring_nl("Ready!");
 
   // INITALISE
-  initText();
+  //initText();
 }
 
+//************************ START LOOP **********************
 
 void loop()
 {
-  Serial.println("Moo");
 
-  inCount = 0;
-  do {
-    while (!Serial.available()); // wait for input
-    inString[inCount] = Serial.read(); // get it
-    if (inString[inCount] == 10) break;
-    //Serial.println(inString[inCount]);
-    inCount = inCount + 1;
-  } 
-  while (1==1);
-  inString[inCount] = 0;
+  if (Serial.available() > 0)
+  {
+    inCount = 0;
+    do {
+      inString[inCount] = Serial.read(); // get it
+      if (inString[inCount] == 10) break;
+      if (inCount > INLENGTH) break;
+      //Serial.println(inString[inCount]); 
+      if (inString[inCount]<128)
+      {
+        if (inString[inCount] > 0)
+        {
+          inCount = inCount + 1;
+        }
+      }
+    } 
+    while (1==1);
+    inString[inCount] = 0;
+    if (strlen(inString) < 21)
+    {
+      x = floor ((128 - ((strlen(inString)*6) - 1)) / 2);
+      scrolling = false;
+      minLeft = 0;
+    }
+    else
+    {
+      x = X_MAX;
+      scrolling = true;
+      minLeft = 0 - (strlen(inString)*6);
+    }
+    disp.clear();
+    drawString(x,0,inString);
+    disp.syncDisplays(); 
+    playfile("PING.WAV");
+    Serial.print("Displaying: ");
+    Serial.println(inString);
+  }
 
-  // center text
-  int x = floor ((128 - ((strlen(inString)*6) - 1)) / 2);
-
-  disp.clear();
-  drawString(x,0,inString);
-  disp.syncDisplays(); 
-  playfile("PING.WAV");
+  scroll(20);
 }
-
+// ******************************** END LOOP **********************************
 //wave hc stuff
 
 // this handy function will return the number of bytes currently free in RAM, great for debugging!   
@@ -219,26 +245,17 @@ void playfile(char *name) {
 }
 
 //sure display
-void drawChar(uint8_t x, uint8_t y, char c)
+void drawChar(int x, int y, char c)
 {
-  //if (x + 5 >=  2 * 32) return;
-  Serial.print(c);
-
   uint8_t dots;
-  /*if (c >= 'A' && c <= 'Z' ||
-   (c >= 'a' && c <= 'z') ) {
-   c &= 0x1F;   // A-Z maps to 1-26
-   } 
-   else if (c >= '0' && c <= '9') {
-   c = (c - '0') + 27;
-   } 
-   else if (c == ' ') {
-   c = 0; // space
-   }*/
   for (char col=0; col< 5; col++) {
     dots = pgm_read_byte_near(&myfont[c][col]);
     for (char row=0; row < 8; row++) {
-      if (dots & (0x80>>row))   	     // only 7 rows.
+      if (x+col<0)
+      {
+        
+      }
+      else if (dots & (0x80>>row))   	     // only 7 rows.
         toolbox.setPixel(x+col, y+row, 1);
       else 
         toolbox.setPixel(x+col, y+row, 0);
@@ -248,11 +265,17 @@ void drawChar(uint8_t x, uint8_t y, char c)
 
 
 // Write out an entire string (Null terminated)
-void drawString(uint8_t x, uint8_t y, char* c)
+void drawString(int x, int y, char* c)
 {
   for(char i=0; i< strlen(c); i++)
   {
-    drawChar(x, y, c[i]);
+    if(x>-6)
+    {
+      if(x<X_MAX)
+      {
+        drawChar(x, y, c[i]);
+      }
+    }
     x+=6; // Width of each glyph
   }
 }
@@ -271,47 +294,51 @@ void fadeIn(void)
 
 void initText(void)
 {
-  disp.clear();
-  drawString(0,0,"Welcome To The");
-  disp.syncDisplays(); 
-  fadeIn();
-  disp.clear();
   drawString(0,0,"London Hackspace");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
-  drawString(0,0,"Notification Board");
-  disp.syncDisplays(); 
-  fadeIn();
-  disp.clear();
-  drawString(0,0,"V0.2");
+  drawString(0,0,"NotificationBoardV0.3");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
   delay(100);
   drawString(0,0,"Loading, Please wait");
   disp.syncDisplays();
-  delay(1000);
+  delay(500);
   disp.clear();
   disp.syncDisplays(); 
-  delay(1000);
+  delay(500);
   drawString(0,0,"Loading, Please wait");
   disp.syncDisplays(); 
-  delay(1000);
+  delay(500);
   disp.clear();
   disp.syncDisplays(); 
-  delay(1000);
+  delay(500);
   drawString(0,0,"Loading, Please wait");
   disp.syncDisplays(); 
-  delay(1000);
+  delay(500);
   disp.clear();
   disp.syncDisplays(); 
-  delay(1000);
+  delay(500);
   disp.clear();
   drawString(0,0,"Ready for input");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
   disp.syncDisplays(); 
+}
+
+void scroll(int delayLen)
+{
+  if (scrolling)
+  {
+    x--;
+    if (x<minLeft) x = X_MAX;
+    disp.clear();
+    drawString(x,0,inString);
+    disp.syncDisplays();
+    delay(delayLen);
+  }
 }
 
