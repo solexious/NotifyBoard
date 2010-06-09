@@ -18,7 +18,7 @@ Copyright 2010 Charles Yarnold charlesyarnold@gmail.com
 This sketch requires the arduino Library from:
  http://github.com/solexious/MatrixDisplay
  
- Version 0.2
+ Version 0.3
  */
 
 #include <FatReader.h>
