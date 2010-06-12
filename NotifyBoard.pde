@@ -24,6 +24,7 @@ This sketch requires the arduino Library from:
 #include <FatReader.h>
 #include <SdReader.h>
 #include <avr/pgmspace.h>
+#include <MsTimer2.h>
 #include "WaveUtil.h"
 #include "WaveHC.h"
 
@@ -38,6 +39,7 @@ WaveHC wave;      // This is the only wave (audio) object, since we will only pl
 #include "MatrixDisplay.h"
 #include "DisplayToolbox.h"
 #include "font.h"
+
 
 // Easy to use function
 #define setMaster(dispNum, CSPin) initDisplay(dispNum,CSPin,true)
@@ -70,6 +72,8 @@ int inCount;
 
 void setup() {
   Serial.begin(9600); 
+
+  MsTimer2::set(40, scroll);
 
   // Fetch bounds
   X_MAX = disp.getDisplayCount() * disp.getDisplayWidth();
@@ -147,19 +151,14 @@ void loop()
 
   if (Serial.available() > 0)
   {
+    MsTimer2::stop();
     inCount = 0;
     do {
       inString[inCount] = Serial.read(); // get it
       if (inString[inCount] == 10) break;
       if (inCount > INLENGTH) break;
       //Serial.println(inString[inCount]); 
-      if (inString[inCount]<128)
-      {
-        if (inString[inCount] > 0)
-        {
-          inCount = inCount + 1;
-        }
-      }
+      if (inString[inCount] > 0 ) inCount++;
     } 
     while (1==1);
     inString[inCount] = 0;
@@ -181,9 +180,8 @@ void loop()
     playfile("PING.WAV");
     Serial.print("Displaying: ");
     Serial.println(inString);
+    if (scrolling) MsTimer2::start();
   }
-
-  scroll(20);
 }
 // ******************************** END LOOP **********************************
 //wave hc stuff
@@ -253,7 +251,7 @@ void drawChar(int x, int y, char c)
     for (char row=0; row < 8; row++) {
       if (x+col<0)
       {
-        
+
       }
       else if (dots & (0x80>>row))   	     // only 7 rows.
         toolbox.setPixel(x+col, y+row, 1);
@@ -329,16 +327,11 @@ void initText(void)
   disp.syncDisplays(); 
 }
 
-void scroll(int delayLen)
+void scroll()
 {
-  if (scrolling)
-  {
-    x--;
-    if (x<minLeft) x = X_MAX;
-    disp.clear();
-    drawString(x,0,inString);
-    disp.syncDisplays();
-    delay(delayLen);
-  }
+  x--;
+  if (x<minLeft) x = X_MAX;
+  disp.clear();
+  drawString(x,0,inString);
+  disp.syncDisplays();
 }
-
