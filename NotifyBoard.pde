@@ -18,7 +18,7 @@ Copyright 2010 Charles Yarnold charlesyarnold@gmail.com
 This sketch requires the arduino Library from:
  http://github.com/solexious/MatrixDisplay
  
- Version 0.3
+ Version 0.31
  */
 
 #include <FatReader.h>
@@ -297,7 +297,7 @@ void initText(void)
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
-  drawString(0,0,"NotificationBoardV0.3");
+  drawString(0,0,"NotificationBoard0.31");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
