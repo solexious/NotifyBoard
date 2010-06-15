@@ -73,7 +73,8 @@ int inCount;
 void setup() {
   Serial.begin(9600); 
 
-  MsTimer2::set(40, scroll);
+  MsTimer2::set(30, scroll);
+  MsTimer2::stop();
 
   // Fetch bounds
   X_MAX = disp.getDisplayCount() * disp.getDisplayWidth();
@@ -141,7 +142,7 @@ void setup() {
   putstring_nl("Ready!");
 
   // INITALISE
-  //initText();
+  initText();
 }
 
 //************************ START LOOP **********************
