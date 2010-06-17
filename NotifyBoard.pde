@@ -24,7 +24,7 @@ This sketch requires the arduino Library from:
 #include <FatReader.h>
 #include <SdReader.h>
 #include <avr/pgmspace.h>
-#include <MsTimer2.h>
+#include <TimedAction.h>
 #include "WaveUtil.h"
 #include "WaveHC.h"
 
@@ -69,12 +69,12 @@ int Y_MAX = 0;
 char inString[INLENGTH+1];
 int inCount;
 
+TimedAction timedAction = TimedAction(30, scroll);
 
 void setup() {
   Serial.begin(9600); 
-
-  MsTimer2::set(30, scroll);
-  MsTimer2::stop();
+  
+  timesAction.disable();
 
   // Fetch bounds
   X_MAX = disp.getDisplayCount() * disp.getDisplayWidth();
@@ -152,7 +152,7 @@ void loop()
 
   if (Serial.available() > 0)
   {
-    MsTimer2::stop();
+    timesAction.disable();
     inCount = 0;
     do {
       inString[inCount] = Serial.read(); // get it
@@ -181,8 +181,9 @@ void loop()
     playfile("PING.WAV");
     Serial.print("Displaying: ");
     Serial.println(inString);
-    if (scrolling) MsTimer2::start();
+    if (scrolling) timesAction.enable();
   }
+  timesAction.check();
 }
 // ******************************** END LOOP **********************************
 //wave hc stuff
