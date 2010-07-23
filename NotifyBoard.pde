@@ -69,12 +69,12 @@ int Y_MAX = 0;
 char inString[INLENGTH+1];
 int inCount;
 
-TimedAction timedAction = TimedAction(30, scroll);
+TimedAction timedAction = TimedAction(35, scroll);
 
 void setup() {
   Serial.begin(9600); 
   
-  timesAction.disable();
+  timedAction.disable();
 
   // Fetch bounds
   X_MAX = disp.getDisplayCount() * disp.getDisplayWidth();
@@ -152,7 +152,7 @@ void loop()
 
   if (Serial.available() > 0)
   {
-    timesAction.disable();
+    timedAction.disable();
     inCount = 0;
     do {
       inString[inCount] = Serial.read(); // get it
@@ -181,9 +181,9 @@ void loop()
     playfile("PING.WAV");
     Serial.print("Displaying: ");
     Serial.println(inString);
-    if (scrolling) timesAction.enable();
+    if (scrolling) timedAction.enable();
   }
-  timesAction.check();
+  timedAction.check();
 }
 // ******************************** END LOOP **********************************
 //wave hc stuff
