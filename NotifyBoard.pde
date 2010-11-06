@@ -21,20 +21,20 @@ This sketch requires the arduino Library from:
  Version 0.31
  */
 
-#include <FatReader.h>
-#include <SdReader.h>
-#include <avr/pgmspace.h>
+//#include <FatReader.h>
+//#include <SdReader.h>
+//#include <avr/pgmspace.h>
 #include <TimedAction.h>
-#include "WaveUtil.h"
-#include "WaveHC.h"
+//#include "WaveUtil.h"
+//#include "WaveHC.h"
 
 
-SdReader card;    // This object holds the information for the card
+/*SdReader card;    // This object holds the information for the card
 FatVolume vol;    // This holds the information for the partition on the card
 FatReader root;   // This holds the information for the filesystem on the card
 FatReader f;      // This holds the information for the file we're play
 
-WaveHC wave;      // This is the only wave (audio) object, since we will only play one at a time
+WaveHC wave;      // This is the only wave (audio) object, since we will only play one at a time*/
 
 #include "MatrixDisplay.h"
 #include "DisplayToolbox.h"
@@ -92,8 +92,8 @@ void setup() {
   //wave hc stuff
   byte i;
 
-  putstring("Free RAM: ");       // This can help with debugging, running out of RAM is bad
-  Serial.println(freeRam());      // if this is under 150 bytes it may spell trouble!
+  //putstring("Free RAM: ");       // This can help with debugging, running out of RAM is bad
+  //Serial.println(freeRam());      // if this is under 150 bytes it may spell trouble!
 
   // Set the output pins for the DAC control. This pins are defined in the library
   pinMode(2, OUTPUT);
@@ -103,7 +103,7 @@ void setup() {
 
   // pin13 LED
   pinMode(6, OUTPUT);
-
+/*
   //  if (!card.init(true)) { //play with 4 MHz spi if 8MHz isn't working for you
   if (!card.init()) {         //play with 8 MHz spi (default faster!)  
     putstring_nl("Card init. failed!");  // Something went wrong, lets print out why
@@ -139,7 +139,7 @@ void setup() {
   }
 
   // Whew! We got past the tough parts.
-  putstring_nl("Ready!");
+  putstring_nl("Ready!");*/
 
   // INITALISE
   initText();
@@ -178,7 +178,7 @@ void loop()
     disp.clear();
     drawString(x,0,inString);
     disp.syncDisplays(); 
-    playfile("PING.WAV");
+    //playfile("PING.WAV");
     Serial.print("Displaying: ");
     Serial.println(inString);
     if (scrolling) timedAction.enable();
@@ -187,7 +187,7 @@ void loop()
 }
 // ******************************** END LOOP **********************************
 //wave hc stuff
-
+/*
 // this handy function will return the number of bytes currently free in RAM, great for debugging!   
 int freeRam(void)
 {
@@ -242,7 +242,7 @@ void playfile(char *name) {
 
   // ok time to play! start playback
   wave.play();
-}
+}*/
 
 //sure display
 void drawChar(int x, int y, char c)
