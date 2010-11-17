@@ -63,6 +63,8 @@ int minLeft;
 // Prepare boundaries
 int X_MAX = 0;
 int Y_MAX = 0;
+int jonty = 0;
+int car = 0;
 
 //serial in stuff
 #define INLENGTH 162
@@ -175,6 +177,27 @@ void loop()
       scrolling = true;
       minLeft = 0 - (strlen(inString)*6);
     }
+    
+    if (stristr(inString,"jonty"))
+      digitalWrite(13, HIGH);       // turn on pullup resistors
+    else
+      digitalWrite(13, LOW);       // turn on pullup resistors
+
+    if (stristr(inString,"car")) {
+      digitalWrite(10, HIGH);       // test car message
+	delay(2000);
+      digitalWrite(10, LOW);       // turn on pullup resistors
+      digitalWrite(9, HIGH);       // test car message
+	delay(2000);
+      digitalWrite(9, LOW);       // turn on pullup resistors
+      digitalWrite(8, HIGH);       // test car message
+	delay(2000);
+      digitalWrite(8, LOW);       // turn on pullup resistors
+      digitalWrite(7, HIGH);       // test car message
+	delay(2000);
+      digitalWrite(7, LOW);       // turn on pullup resistors
+    }
+
     disp.clear();
     drawString(x,0,inString);
     disp.syncDisplays(); 
@@ -337,3 +360,4 @@ void scroll()
   drawString(x,0,inString);
   disp.syncDisplays();
 }
+
