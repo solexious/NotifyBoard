@@ -40,6 +40,10 @@ WaveHC wave;      // This is the only wave (audio) object, since we will only pl
 #include "DisplayToolbox.h"
 #include "font.h"
 
+void scroll();
+void initText(void);
+void drawString(int x, int y, char* c);
+
 
 // Easy to use function
 #define setMaster(dispNum, CSPin) initDisplay(dispNum,CSPin,true)
@@ -178,12 +182,12 @@ void loop()
       minLeft = 0 - (strlen(inString)*6);
     }
     
-    if (stristr(inString,"jonty"))
+    if (strstr(inString,"jonty"))
       digitalWrite(13, HIGH);       // turn on pullup resistors
     else
       digitalWrite(13, LOW);       // turn on pullup resistors
 
-    if (stristr(inString,"car")) {
+    if (strstr(inString,"car")) {
       digitalWrite(10, HIGH);       // test car message
 	delay(2000);
       digitalWrite(10, LOW);       // turn on pullup resistors
