@@ -71,9 +71,9 @@ int jonty = 0;
 int car = 0;
 
 // Pins for car control
-#define CAR_FWD 10
-#define CAR_BACK 7
-#define CAR_LEFT 8
+#define CAR_FWD 8
+#define CAR_BACK 10
+#define CAR_LEFT 7
 #define CAR_RIGHT 9
 #define FWD_TURN_TIME 1000
 #define BACK_TURN_TIME 1000
@@ -238,6 +238,16 @@ void loop()
             digitalWrite(CAR_BACK, HIGH);
             delay(DRIVE_TIME);
             digitalWrite(CAR_BACK, LOW);                  
+            break;
+          case '7':
+            digitalWrite(CAR_LEFT, HIGH);
+            delay(DRIVE_TIME);
+            digitalWrite(CAR_LEFT, LOW);
+            break;
+          case '8':
+            digitalWrite(CAR_RIGHT, HIGH);
+            delay(DRIVE_TIME);
+            digitalWrite(CAR_RIGHT, LOW);                  
             break;
 	}
       }
