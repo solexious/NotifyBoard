@@ -71,10 +71,10 @@ int jonty = 0;
 int car = 0;
 
 // Pins for car control
-#define CAR_FWD 8
-#define CAR_BACK 10
-#define CAR_LEFT 7
-#define CAR_RIGHT 9
+#define CAR_FWD 9
+#define CAR_BACK 11
+#define CAR_LEFT 8
+#define CAR_RIGHT 10
 #define FWD_TURN_TIME 1000
 #define BACK_TURN_TIME 1000
 #define DRIVE_TIME 1000
