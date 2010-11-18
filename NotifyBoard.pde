@@ -75,9 +75,9 @@ int car = 0;
 #define CAR_BACK 11
 #define CAR_LEFT 8
 #define CAR_RIGHT 10
-#define FWD_TURN_TIME 1000
-#define BACK_TURN_TIME 1000
-#define DRIVE_TIME 1000
+#define FWD_TURN_TIME 600 
+#define BACK_TURN_TIME 600
+#define DRIVE_TIME 250 
 
 //serial in stuff
 #define INLENGTH 162
