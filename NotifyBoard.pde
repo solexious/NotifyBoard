@@ -70,6 +70,15 @@ int Y_MAX = 0;
 int jonty = 0;
 int car = 0;
 
+// Pins for car control
+#define CAR_FWD 10
+#define CAR_BACK 7
+#define CAR_LEFT 8
+#define CAR_RIGHT 9
+#define FWD_TURN_TIME 1000
+#define BACK_TURN_TIME 1000
+#define DRIVE_TIME 1000
+
 //serial in stuff
 #define INLENGTH 162
 char inString[INLENGTH+1];
@@ -188,18 +197,50 @@ void loop()
       digitalWrite(13, LOW);       // turn on pullup resistors
 
     if (strstr(inString,"car")) {
-      digitalWrite(10, HIGH);       // test car message
-	delay(2000);
-      digitalWrite(10, LOW);       // turn on pullup resistors
-      digitalWrite(9, HIGH);       // test car message
-	delay(2000);
-      digitalWrite(9, LOW);       // turn on pullup resistors
-      digitalWrite(8, HIGH);       // test car message
-	delay(2000);
-      digitalWrite(8, LOW);       // turn on pullup resistors
-      digitalWrite(7, HIGH);       // test car message
-	delay(2000);
-      digitalWrite(7, LOW);       // turn on pullup resistors
+      if (strlen(inString) > 3) {
+        char car_cmd = inString[3];
+
+	switch (car_cmd){
+          case '1':
+	    digitalWrite(CAR_LEFT, HIGH);
+	    digitalWrite(CAR_FWD, HIGH);
+	    delay(FWD_TURN_TIME);
+	    digitalWrite(CAR_LEFT, LOW);
+	    digitalWrite(CAR_FWD, LOW);
+	    break;
+          case '2':
+            digitalWrite(CAR_RIGHT, HIGH);
+            digitalWrite(CAR_FWD, HIGH);
+            delay(FWD_TURN_TIME);
+            digitalWrite(CAR_RIGHT, LOW);
+            digitalWrite(CAR_FWD, LOW);
+            break;
+          case '3':
+            digitalWrite(CAR_LEFT, HIGH);
+            digitalWrite(CAR_BACK, HIGH);
+            delay(BACK_TURN_TIME);
+            digitalWrite(CAR_LEFT, LOW);
+            digitalWrite(CAR_BACK, LOW);
+            break;
+          case '4':
+            digitalWrite(CAR_RIGHT, HIGH);
+            digitalWrite(CAR_BACK, HIGH);
+            delay(BACK_TURN_TIME);
+            digitalWrite(CAR_RIGHT, LOW);
+            digitalWrite(CAR_BACK, LOW);
+            break;
+          case '5':
+            digitalWrite(CAR_FWD, HIGH);
+            delay(DRIVE_TIME);
+            digitalWrite(CAR_FWD, LOW);
+            break;
+          case '6':
+            digitalWrite(CAR_BACK, HIGH);
+            delay(DRIVE_TIME);
+            digitalWrite(CAR_BACK, LOW);                  
+            break;
+	}
+      }
     }
 
     disp.clear();
