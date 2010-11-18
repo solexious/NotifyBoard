@@ -77,6 +77,7 @@ $(INSTALL_DIR)/libraries/Matrix/Matrix.cpp \
 $(INSTALL_DIR)/libraries/SoftwareSerial/SoftwareSerial.cpp \
 $(INSTALL_DIR)/libraries/Stepper/Stepper.cpp \
 $(INSTALL_DIR)/libraries/Firmata/Firmata.cpp \
+$(INSTALL_DIR)/libraries/MatrixDisplay/MatrixDisplay.cpp \
 $(INSTALL_DIR)/libraries/MatrixDisplay/DisplayToolbox.cpp \
 $(INSTALL_DIR)/libraries/Spi/Spi.cpp \
 $(INSTALL_DIR)/libraries/TimedAction/TimedAction.cpp \
