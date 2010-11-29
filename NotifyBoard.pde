@@ -18,7 +18,7 @@ Copyright 2010 Charles Yarnold charlesyarnold@gmail.com
 This sketch requires the arduino Library from:
  http://github.com/solexious/MatrixDisplay
  
- Version 0.31
+ Version 0.4
  */
 
 //#include <FatReader.h>
@@ -86,6 +86,7 @@ int car = 0;
 //serial in stuff
 #define INLENGTH 162
 char inString[INLENGTH+1];
+char inSerialString[INLENGTH+1];
 int inCount;
 
 TimedAction timedAction = TimedAction(35, scroll);
@@ -180,32 +181,35 @@ void loop()
 
   if (Serial.available() > 0)
   {
-    timedAction.disable();
     inCount = 0;
     do {
-      inString[inCount] = Serial.read(); // get it
-      if (inString[inCount] == 10) break;
+      inSerialString[inCount] = Serial.read(); // get it
+      if (inSerialString[inCount] == 10) break;
       if (inCount > INLENGTH) break;
       //Serial.println(inString[inCount]); 
-      if (inString[inCount] > 0 ) inCount++;
+      if (inSerialString[inCount] > 0 ) inCount++;
     } 
     while (1==1);
-    inString[inCount] = 0;
+    inSerialString[inCount] = 0;
 
 
 
 
-    if(strstr(inString,"$W$")){
+    if(strstr(inSerialString,"$W$")){
       // Send srting to mini board
-      char* miniString = inString;
+      char* miniString = inSerialString;
       miniString +=3;
       dispW.clear();
       drawStringW(0,0,miniString);
       dispW.syncDisplays();
     }
     else{
-
-
+      
+      for(int a=0; a<162; a++){
+        inString[a] = inSerialString[a];
+      }
+      
+      timedAction.disable();
       if (strlen(inString) < 21)
       {
         x = floor ((128 - ((strlen(inString)*6) - 1)) / 2);
@@ -455,7 +459,7 @@ void initText(void)
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
-  drawString(0,0,"NotificationBoard0.31");
+  drawString(0,0,"NotificationBoard 0.4");
   disp.syncDisplays(); 
   fadeIn();
   disp.clear();
@@ -494,6 +498,7 @@ void scroll()
   drawString(x,0,inString);
   disp.syncDisplays();
 }
+
 
 
 
