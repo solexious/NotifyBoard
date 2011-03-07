@@ -1,4 +1,18 @@
 sudo apt-get install build-essential gcc-avr avr-libc avrdude
 
-make all
-sudo make upload
+cd ~
+wget http://arduino.googlecode.com/files/arduino-0021.tgz
+tar zxf arduino-0021.tgz
+
+wget http://arduino.cc/playground/uploads/Code/TimedAction-1_6.zip
+unzip TimedAction-1_6.zip
+
+mkdir MatrixDisplay
+cd MatrixDisplay
+wget http://download.milesburton.com/Arduino/Sure2416/MatrixDisplay_200.zip
+unzip MatrixDisplay_200.zip -d MatrixDisplay
+
+cd -
+make
+
+sudo ARDUINO_PORT=/dev/ttyUSB5 make upload

@@ -46,9 +46,11 @@ This sketch requires the arduino Library from:
 #include "DisplayToolbox.h"
 #include "font.h"
 
+// Required when using Makefile - would be nice to get rid of this
 void scroll();
 void initText(void);
 void drawString(int x, int y, char* c);
+void drawStringW(int x, int y, char* c);
 
 
 // Easy to use function
