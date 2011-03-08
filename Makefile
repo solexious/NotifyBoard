@@ -80,17 +80,18 @@ $(ARDUINO)/HardwareSerial.cpp
 
 ARDUINO_LIB = \
 $(wildcard $(INSTALL_DIR)/libraries/*/*.c) \
-$(wildcard $(INSTALL_DIR)/libraries/*/*.cpp) \
 $(wildcard $(INSTALL_DIR)/libraries/*/*/*.c) \
+$(wildcard $(INSTALL_DIR)/libraries/*/*/*/*.c)
+
+ARDUINO_LIBXX = \
+$(wildcard $(INSTALL_DIR)/libraries/*/*.cpp) \
 $(wildcard $(INSTALL_DIR)/libraries/*/*/*.cpp) \
-$(wildcard $(INSTALL_DIR)/libraries/*/*/*/*.c) \
 $(wildcard $(INSTALL_DIR)/libraries/*/*/*/*.cpp)
 
-
 CXX_APP = applet/$(TARGET).cpp
-MODULES = $(C_MODULES) $(CXX_MODULES) $(ARDUINO_LIB)
-SRC = $(C_MODULES)
-CXXSRC = $(CXX_MODULES) $(CXX_APP) $(ARDUINO_LIB)
+MODULES = $(C_MODULES) $(ARDUINO_LIB) $(CXX_MODULES) $(ARDUINO_LIBXX)
+SRC = $(C_MODULES) $(ARDUINO_LIB)
+CXXSRC = $(CXX_MODULES) $(CXX_APP) $(ARDUINO_LIBXX)
 FORMAT = ihex
 
 
@@ -112,10 +113,11 @@ CXXDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 AVR_HEADERS = $(INSTALL_DIR)/hardware/tools/avr/avr/include/avr
 
 ARDUINO_LIB_INCLUDES = $(addprefix -I, $(dir $(ARDUINO_LIB)))
+ARDUINO_LIBXX_INCLUDES = $(addprefix -I, $(dir $(ARDUINO_LIBXX)))
 
 # Place -I options here
-CINCS = -I$(CURDIR) -I$(ARDUINO) $(ARDUINO_LIB_INCLUDES) -I$(AVR_HEADERS)
-CXXINCS = -I$(CURDIR) -I$(ARDUINO) $(ARDUINO_LIB_INCLUDES) -I$(AVR_HEADERS)
+CINCS = -I$(CURDIR) -I$(ARDUINO) $(ARDUINO_LIB_INCLUDES) $(ARDUINO_LIBXX_INCLUDES) -I$(AVR_HEADERS)
+CXXINCS = -I$(CURDIR) -I$(ARDUINO) $(ARDUINO_LIB_INCLUDES) $(ARDUINO_LIBXX_INCLUDES) -I$(AVR_HEADERS)
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -163,7 +165,7 @@ MV = mv -f
 
 # Define all object files.
 OBJ = $(SRC:.c=.o) $(CXXSRC:.cpp=.o) $(ASRC:.S=.o)
-OBJ_MODULES = $(C_MODULES:.c=.o) $(CXX_MODULES:.cpp=.o) $(ARDUINO_LIB:.cpp=.o)
+OBJ_MODULES = $(C_MODULES:.c=.o) $(CXX_MODULES:.cpp=.o) $(ARDUINO_LIBXX:.cpp=.o)
 
 # Define all listing files.
 LST = $(ASRC:.S=.lst) $(CXXSRC:.cpp=.lst) $(SRC:.c=.lst)
