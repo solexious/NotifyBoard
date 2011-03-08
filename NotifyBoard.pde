@@ -14,11 +14,7 @@ Copyright 2010 Charles Yarnold charlesyarnold@gmail.com
  
 */
 
-/* Includes various minor modifications by London Hackspace, incuding:
- github.com/jonty
- github.com/marksteward
- github.com/samthetechie
-*/
+/* Includes various minor modifications by London Hackspace */
 
 /*
 This sketch requires the arduino Library from:
